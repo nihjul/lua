@@ -20,4 +20,16 @@ jobs:
         with:
           version: 0.15.2
       - name: linux-x86_64
-        run: zig build -Dtarget=x86_64-linux-gnu
+        run: zig build -Dtarget=x86_64-linux-gnu -p x86_64-linux-gnu
+      - name: linux-aarch64
+        run: zig build -Dtarget=aarch64-linux-gnu -p aarch64-linux-gnu
+      - name: macos-aarch64
+        run: zig build -Dtarget=aarch64-macos-none -p aarch64-macos
+      - name: macos-x86_64
+        run: zig build -Dtarget=x86_64-macos-none -p x86_64-macos
+      - name: upload-artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-aarch64
+          path: aarch64-macos/
+          if-no-files-found: error
