@@ -1,0 +1,22 @@
+name: building
+
+on:
+  push:
+    tags:
+      - 'v*.*.**'
+
+jobs:
+  lua:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+      packages: write
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: linux-x86_64
+        uses: mlugg/setup-zig@v2
+        with:
+          version: 0.15.2
+        run: zig build -Dtarget=x86_64-linux-gnu
