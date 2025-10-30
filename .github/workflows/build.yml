@@ -1,0 +1,41 @@
+name: building
+
+on:
+  push:
+    tags:
+      - 'v*.*.**'
+
+jobs:
+  lua:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+      packages: write
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: setup-zig
+        uses: mlugg/setup-zig@v2
+        with:
+          version: 0.15.2
+      - name: linux-x86_64
+        run: zig build -Dtarget=x86_64-linux-gnu -p zig-out/x86_64-linux-gnu
+      - name: linux-aarch64
+        run: zig build -Dtarget=aarch64-linux-gnu -p zig-out/aarch64-linux-gnu
+      - name: macos-aarch64
+        run: zig build -Dtarget=aarch64-macos-none -p zig-out/aarch64-macos
+      - name: macos-x86_64
+        run: zig build -Dtarget=x86_64-macos-none -p zig-out/x86_64-macos
+      - name: macos-aarch64-artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lua-macos-aarch64
+          path: zig-out/aarch64-macos
+          if-no-files-found: error
+      - name: macos-x86_64-artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lua-macos-x86_64
+          path: zig-out/x86_64-macos
+          if-no-files-found: error
