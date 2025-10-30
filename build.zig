@@ -39,15 +39,15 @@ pub fn build(b: *std.Build) void {
         "linit.c",
     }, .flags = &.{ "-std=gnu99", "-DLUA_COMPAT_5_3" } };
 
-    const zlua = b.addModule("zlua", .{
+    const lua = b.addModule("lua", .{
         .target = target,
         .optimize = optimize,
         .link_libc = true,
     });
 
-    zlua.addCSourceFiles(luaLibCode);
+    lua.addCSourceFiles(luaLibCode);
 
-    const liblua = b.addLibrary(.{ .name = "liblua", .root_module = zlua, .linkage = .static, .version = std.SemanticVersion{ .major = 5, .minor = 4, .patch = 8 } });
+    const liblua = b.addLibrary(.{ .name = "liblua", .root_module = lua, .linkage = .static, .version = std.SemanticVersion{ .major = 5, .minor = 4, .patch = 8 } });
     liblua.installHeader(b.path("src/lua.h"), "lua.h");
     liblua.installHeader(b.path("src/lualib.h"), "lualib.h");
     liblua.installHeader(b.path("src/lauxlib.h"), "lauxlib.h");
@@ -62,12 +62,12 @@ pub fn build(b: *std.Build) void {
     lua_mod.addCSourceFile(.{ .file = b.path("src/lua.c"), .flags = &.{ "-std=gnu99", "-DLUA_COMPAT_5_3" } });
     lua_mod.linkLibrary(liblua);
 
-    const lua = b.addExecutable(.{
+    const lua_bin = b.addExecutable(.{
         .name = "lua",
         .root_module = lua_mod,
         .version = std.SemanticVersion{ .major = 5, .minor = 4, .patch = 8 },
     });
 
     b.installArtifact(liblua);
-    b.installArtifact(lua);
+    b.installArtifact(lua_bin);
 }

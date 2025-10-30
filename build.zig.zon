@@ -1,7 +1,7 @@
 .{
-    .name = .zlua,
+    .name = .lua,
     .version = "5.4.8",
-    .fingerprint = 0xcf671dd2be43693,
+    .fingerprint = 0xd671372bc860871e,
     .minimum_zig_version = "0.15.2",
     .dependencies = .{},
     .paths = .{
