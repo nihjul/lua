@@ -42,12 +42,12 @@ jobs:
       - name: linux-aarch64-artifact
         uses: actions/upload-artifact@v4
         with:
-          name: lua-linux-aarch64
-          path: zig-out/aarch64-linux
+          name: lua-linux-gnu-aarch64
+          path: zig-out/aarch64-linux-gnu
           if-no-files-found: error
       - name: linux-x86_64-artifact
         uses: actions/upload-artifact@v4
         with:
-          name: lua-linux-x86_64
-          path: zig-out/x86_64-linux
+          name: lua-linux-gnu-x86_64
+          path: zig-out/x86_64-linux-gnu
           if-no-files-found: error
