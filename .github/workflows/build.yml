@@ -15,8 +15,9 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
-      - name: linux-x86_64
+      - name: setup-zig
         uses: mlugg/setup-zig@v2
         with:
           version: 0.15.2
+      - name: linux-x86_64
         run: zig build -Dtarget=x86_64-linux-gnu
