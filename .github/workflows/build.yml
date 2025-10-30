@@ -20,16 +20,22 @@ jobs:
         with:
           version: 0.15.2
       - name: linux-x86_64
-        run: zig build -Dtarget=x86_64-linux-gnu -p x86_64-linux-gnu
+        run: zig build -Dtarget=x86_64-linux-gnu -p zig-out/x86_64-linux-gnu
       - name: linux-aarch64
-        run: zig build -Dtarget=aarch64-linux-gnu -p aarch64-linux-gnu
+        run: zig build -Dtarget=aarch64-linux-gnu -p zig-out/aarch64-linux-gnu
       - name: macos-aarch64
-        run: zig build -Dtarget=aarch64-macos-none -p aarch64-macos
+        run: zig build -Dtarget=aarch64-macos-none -p zig-out/aarch64-macos
       - name: macos-x86_64
-        run: zig build -Dtarget=x86_64-macos-none -p x86_64-macos
-      - name: upload-artifacts
+        run: zig build -Dtarget=x86_64-macos-none -p zig-out/x86_64-macos
+      - name: macos-aarch64-artifact
         uses: actions/upload-artifact@v4
         with:
-          name: macos-aarch64
-          path: aarch64-macos/
+          name: lua-macos-aarch64
+          path: zig-out/aarch64-macos
+          if-no-files-found: error
+      - name: macos-x86_64-artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lua-macos-x86_64
+          path: zig-out/x86_64-macos
           if-no-files-found: error
